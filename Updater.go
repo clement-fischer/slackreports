@@ -95,35 +95,3 @@ func NewReporter(webhook string, d time.Duration) *Reporter {
 	go runUpdater(webhook, c, done, ticker, &r.E)
 	return r
 }
-
-func main() {
-	// Replace using your previously configured webhook
-	slackHook := "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
-
-	r := NewReporter(slackHook, 3*time.Second)
-	defer r.Stop()
-
-	ticker := time.NewTicker(1 * time.Second)
-	defer ticker.Stop()
-
-	done := make(chan bool)
-	go func() {
-		time.Sleep(10 * time.Second)
-		done <- true
-	}()
-
-	for {
-		if r.E != nil {
-			log.Fatalf("error: slackUpdater error field is not nil: %v", r.E)
-		}
-		select {
-		case <-done:
-			return
-		case ts := <-ticker.C:
-			message := "[DEBUG] Running Unit Test: " + ts.String()
-			if err := r.Update(message); err != nil {
-				fmt.Println(err)
-			}
-		}
-	}
-}
