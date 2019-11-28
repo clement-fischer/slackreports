@@ -1,6 +1,6 @@
 # slackreports
 
-This is a basic tool to send at most one message every X seconds on a Slack channel using a webhook. Only the latest message set by the `Update` method will be sent. Use the `Stop` method release associated resources.
+This is a basic tool to send at most one message every X seconds on a Slack channel using a webhook, useful to reduce the volume of messages when only the latest message is important. Only the latest message set by the `Update` method will be sent. Use the `Stop` method release associated resources.
 
 ## Example
 
